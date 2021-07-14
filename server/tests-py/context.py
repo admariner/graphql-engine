@@ -493,18 +493,21 @@ class HGECtx:
         self.hge_scale_url = config.getoption('--test-hge-scale-url')
         self.avoid_err_msg_checks = config.getoption('--avoid-error-message-checks')
         self.inherited_roles_tests = config.getoption('--test-inherited-roles')
+        self.pro_tests = config.getoption('--pro-tests')
 
         self.ws_client = GQLWsClient(self, '/v1/graphql')
         self.ws_client_v1alpha1 = GQLWsClient(self, '/v1alpha1/graphql')
         self.ws_client_relay = GQLWsClient(self, '/v1beta1/relay')
 
         self.backend = config.getoption('--backend')
+        self.default_backend = 'postgres'
+        self.is_default_backend = self.backend == self.default_backend
 
         # HGE version
         result = subprocess.run(['../../scripts/get-version.sh'], shell=False, stdout=subprocess.PIPE, check=True)
         env_version = os.getenv('VERSION')
         self.version = env_version if env_version else result.stdout.decode('utf-8').strip()
-        if not self.metadata_disabled and not config.getoption('--skip-schema-setup'):
+        if self.is_default_backend and not self.metadata_disabled and not config.getoption('--skip-schema-setup'):
           try:
               st_code, resp = self.v2q_f("queries/" + self.backend_suffix("clear_db")+ ".yaml")
           except requests.exceptions.RequestException as e:
@@ -513,7 +516,7 @@ class HGECtx:
           assert st_code == 200, resp
 
         # Postgres version
-        if self.backend == 'postgres':
+        if self.is_default_backend:
             pg_version_text = self.sql('show server_version_num').fetchone()['server_version_num']
             self.pg_version = int(pg_version_text)
 
@@ -601,7 +604,7 @@ class HGECtx:
             return self.v2q(yml.load(f))
 
     def backend_suffix(self, filename):
-        if self.backend == 'postgres':
+        if self.is_default_backend:
             return filename
         else:
             return filename + "_" + self.backend
