@@ -1882,6 +1882,7 @@ input_file: crates/metadata-resolve/tests/passing/aggregate_expressions/root_fie
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -3016,7 +3017,7 @@ input_file: crates/metadata-resolve/tests/passing/aggregate_expressions/root_fie
                     ),
                 },
                 arguments: {},
-                select_permissions: {},
+                permissions: {},
                 filter_expression_type: None,
                 graphql_api: ModelGraphQlApi {
                     arguments_input_config: None,

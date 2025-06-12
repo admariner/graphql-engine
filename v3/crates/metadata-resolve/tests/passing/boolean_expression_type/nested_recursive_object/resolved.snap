@@ -1133,6 +1133,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/nested
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -1740,13 +1741,18 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/nested
                         ),
                     },
                 },
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: true,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: true,
+                            },
+                        ),
+                        relational_insert: None,
                     },
                 },
                 filter_expression_type: Some(

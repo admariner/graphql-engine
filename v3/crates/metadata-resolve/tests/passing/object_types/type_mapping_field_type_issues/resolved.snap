@@ -1447,6 +1447,7 @@ input_file: crates/metadata-resolve/tests/passing/object_types/type_mapping_fiel
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -2259,13 +2260,18 @@ input_file: crates/metadata-resolve/tests/passing/object_types/type_mapping_fiel
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
                     },
                 },
                 filter_expression_type: Some(

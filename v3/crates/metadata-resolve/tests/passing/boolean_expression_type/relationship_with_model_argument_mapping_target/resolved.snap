@@ -954,6 +954,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/relati
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -1254,13 +1255,18 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/relati
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "user",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -1832,6 +1838,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/relati
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -2034,13 +2041,18 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/relati
                         type_representation: None,
                     },
                 },
-                select_permissions: {
+                permissions: {
                     Role(
                         "user",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
                     },
                 },
                 filter_expression_type: None,

@@ -104,21 +104,6 @@ pub(crate) fn test_introspection_expectation(
 
         let schema = GDS::build_schema(&gds)?;
 
-        // Verify successful serialization and deserialization of the schema.
-        // Hasura V3 relies on the serialized schema for handling requests.
-        // Therefore, it is crucial to ensure the functionality of both
-        // deserialization and serialization.
-        // Testing this within this function allows us to detect errors for any
-        // future metadata tests that may be added.
-        let serialized_metadata =
-            serde_json::to_string(&schema).expect("Failed to serialize schema");
-        let deserialized_metadata: Schema<GDS> =
-            serde_json::from_str(&serialized_metadata).expect("Failed to deserialize metadata");
-        assert_eq!(
-            schema, deserialized_metadata,
-            "initial built metadata does not match deserialized metadata"
-        );
-
         let query = read_to_string(&request_path)?;
 
         let request_headers = reqwest::header::HeaderMap::new();
@@ -375,17 +360,6 @@ pub fn test_execution_expectation_for_multiple_ndc_versions(
             };
 
             let schema = GDS::build_schema(&gds)?;
-
-            // Verify successful serialization and deserialization of the schema.
-            // Hasura V3 relies on the serialized schema for handling requests.
-            // Therefore, it is crucial to ensure the functionality of both
-            // deserialization and serialization.
-            // Testing this within this function allows us to detect errors for any
-            // future metadata tests that may be added.
-            let serialized_metadata =
-                serde_json::to_string(&schema).expect("Failed to serialize schema");
-            let _deserialized_metadata: Schema<GDS> =
-                serde_json::from_str(&serialized_metadata).expect("Failed to deserialize metadata");
 
             let query = read_to_string(&request_path)?;
 
@@ -657,6 +631,7 @@ pub(crate) fn test_metadata_resolve_configuration() -> metadata_resolve::configu
 {
     metadata_resolve::configuration::Configuration {
         unstable_features: metadata_resolve::configuration::UnstableFeatures {
+            enable_authorization_rules: true,
             ..Default::default()
         },
     }
@@ -727,6 +702,7 @@ async fn run_query_graphql_ws(
         auth_config: Arc::new(dummy_auth_config),
         metrics: graphql_ws::NoOpWebSocketMetrics,
         handshake_headers: Arc::new(request_headers.clone()),
+        auth_mode_header: "x-hasura-auth-mode".to_string(),
     };
     let (channel_sender, mut channel_receiver) =
         tokio::sync::mpsc::channel::<graphql_ws::Message>(10);

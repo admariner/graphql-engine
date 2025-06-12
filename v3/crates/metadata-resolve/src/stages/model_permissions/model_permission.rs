@@ -1,6 +1,6 @@
 use super::predicate;
-use super::types::ModelPermissionIssue;
 use super::types::{FilterPermission, SelectPermission};
+use super::types::{ModelPermissionIssue, RelationalInsertPermission, ResolvedPermissions};
 use super::{ModelPermissionError, NamedModelPermissionError};
 use crate::ArgumentInfo;
 use crate::helpers::argument::resolve_value_expression_for_argument;
@@ -12,18 +12,19 @@ use crate::types::error::Error;
 use crate::types::subgraph::Qualified;
 
 use indexmap::IndexMap;
-use open_dds::permissions::NullableModelPredicate;
-use open_dds::permissions::{ModelPermissionsV1, Role};
+use open_dds::permissions::{
+    ModelPermissionOperand, ModelPermissionsV2, NullableModelPredicate, Role,
+};
 use open_dds::query::ArgumentName;
 use open_dds::spanned::Spanned;
 use open_dds::{data_connector::DataConnectorName, models::ModelName, types::CustomTypeName};
 use std::collections::{BTreeMap, BTreeSet};
 
-pub fn resolve_all_model_select_permissions(
+pub fn resolve_all_model_permissions(
     flags: &open_dds::flags::OpenDdFlags,
     model: &models_graphql::Model,
     arguments: &IndexMap<ArgumentName, ArgumentInfo>,
-    model_permissions: &ModelPermissionsV1,
+    model_permissions: &ModelPermissionsV2,
     boolean_expression: Option<&boolean_expressions::ResolvedObjectBooleanExpressionType>,
     data_connector_scalars: &BTreeMap<
         Qualified<DataConnectorName>,
@@ -37,38 +38,59 @@ pub fn resolve_all_model_select_permissions(
     models: &IndexMap<Qualified<ModelName>, models_graphql::ModelWithGraphql>,
     boolean_expression_types: &boolean_expressions::BooleanExpressionTypes,
     issues: &mut Vec<ModelPermissionIssue>,
-) -> Result<BTreeMap<Role, SelectPermission>, Error> {
+) -> Result<BTreeMap<Role, ResolvedPermissions>, Error> {
     let mut validated_permissions = BTreeMap::new();
     let mut resolved_roles = BTreeSet::new();
 
-    for model_permission in &model_permissions.permissions {
-        if !resolved_roles.insert(model_permission.role.value.clone()) {
-            issues.push(ModelPermissionIssue::DuplicateRole {
-                role: model_permission.role.clone(),
-                model_name: model.name.clone(),
-            });
-        }
+    match &model_permissions.permissions {
+        ModelPermissionOperand::RoleBased(role_based_model_permissions) => {
+            for model_permission in role_based_model_permissions {
+                if !resolved_roles.insert(model_permission.role.value.clone()) {
+                    issues.push(ModelPermissionIssue::DuplicateRole {
+                        role: model_permission.role.clone(),
+                        model_name: model.name.clone(),
+                    });
+                    // Continue processing this role's permissions, but we've already
+                    // recorded the duplicate role issue
+                }
 
-        if let Some(select_perms) = &model_permission.select {
-            let resolved_permission = resolve_model_select_permissions(
-                select_perms,
-                &model_permission.role,
-                flags,
-                model,
-                arguments,
-                boolean_expression,
-                data_connector_scalars,
-                object_types,
-                scalar_types,
-                boolean_expression_types,
-                models,
-                issues,
-            )?;
+                let mut resolved_permission = ResolvedPermissions {
+                    select: None,
+                    relational_insert: None,
+                };
 
-            validated_permissions.insert(model_permission.role.value.clone(), resolved_permission);
+                // Resolve select permissions
+                if let Some(select_perms) = &model_permission.select {
+                    let select_permission = resolve_model_select_permissions(
+                        select_perms,
+                        &model_permission.role,
+                        flags,
+                        model,
+                        arguments,
+                        boolean_expression,
+                        data_connector_scalars,
+                        object_types,
+                        scalar_types,
+                        boolean_expression_types,
+                        models,
+                        issues,
+                    )?;
+
+                    resolved_permission.select = Some(select_permission);
+                }
+
+                // Resolve relational insert permissions
+                if let Some(_relational_insert) = &model_permission.relational_insert {
+                    resolved_permission.relational_insert = Some(RelationalInsertPermission {});
+                }
+
+                // Insert the resolved permissions for this role
+                validated_permissions
+                    .insert(model_permission.role.value.clone(), resolved_permission);
+            }
+            Ok(validated_permissions)
         }
     }
-    Ok(validated_permissions)
 }
 
 fn resolve_model_select_permissions(
