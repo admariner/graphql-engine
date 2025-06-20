@@ -324,6 +324,7 @@ input_file: crates/metadata-resolve/tests/passing/models/issue_when_not_all_argu
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -494,7 +495,7 @@ input_file: crates/metadata-resolve/tests/passing/models/issue_when_not_all_argu
                         type_representation: None,
                     },
                 },
-                select_permissions: {},
+                permissions: {},
                 filter_expression_type: None,
                 graphql_api: ModelGraphQlApi {
                     arguments_input_config: Some(
@@ -699,6 +700,8 @@ input_file: crates/metadata-resolve/tests/passing/models/issue_when_not_all_argu
             pre_parse_plugins: [],
             pre_response_plugins: [],
             pre_route_plugins: [],
+            pre_ndc_request_plugins: {},
+            pre_ndc_response_plugins: {},
         },
         roles: {},
         runtime_flags: RuntimeFlags(

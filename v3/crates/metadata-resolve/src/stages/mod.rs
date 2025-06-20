@@ -322,6 +322,7 @@ fn resolve_internal(
         issues: model_permission_issues,
     } = model_permissions::resolve(
         &metadata_accessor,
+        &data_connectors,
         &data_connector_scalars,
         &object_types_with_relationships,
         &scalar_types,
@@ -348,7 +349,7 @@ fn resolve_internal(
     let scalar_types_with_representations =
         scalar_type_representations::resolve(&data_connector_scalars, &scalar_types);
 
-    let plugin_configs = plugins::resolve(&metadata_accessor);
+    let plugin_configs = plugins::resolve(&metadata_accessor).map_err(flatten_multiple_errors)?;
 
     // check for duplicate names across types
     all_issues.extend(conflicting_types::check_conflicting_names_across_types(

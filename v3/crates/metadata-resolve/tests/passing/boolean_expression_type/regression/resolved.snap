@@ -4965,6 +4965,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -5221,327 +5222,46 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                     Role(
                         "complex-permission",
-                    ): SelectPermission {
-                        filter: Filter(
-                            Relationship {
-                                relationship_info: PredicateRelationshipInfo {
-                                    relationship_name: RelationshipName(
-                                        Identifier(
-                                            "Albums",
-                                        ),
-                                    ),
-                                    relationship_type: Array,
-                                    source_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Artist",
-                                            ),
-                                        ),
-                                    },
-                                    source_data_connector: DataConnectorLink {
-                                        name: Qualified {
-                                            subgraph: SubgraphName(
-                                                "default",
-                                            ),
-                                            name: DataConnectorName(
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: Filter(
+                                    Relationship {
+                                        relationship_info: PredicateRelationshipInfo {
+                                            relationship_name: RelationshipName(
                                                 Identifier(
-                                                    "db",
+                                                    "Albums",
                                                 ),
                                             ),
-                                        },
-                                        url: SingleUrl(
-                                            SerializableUrl(
-                                                Url {
-                                                    scheme: "http",
-                                                    cannot_be_a_base: false,
-                                                    username: "",
-                                                    password: None,
-                                                    host: Some(
-                                                        Domain(
-                                                            "postgres-connector",
-                                                        ),
-                                                    ),
-                                                    port: Some(
-                                                        8080,
-                                                    ),
-                                                    path: "/",
-                                                    query: None,
-                                                    fragment: None,
-                                                },
-                                            ),
-                                        ),
-                                        headers: SerializableHeaderMap(
-                                            {},
-                                        ),
-                                        response_config: None,
-                                        capabilities: DataConnectorCapabilities {
-                                            supported_ndc_version: V01,
-                                            supports_explaining_queries: true,
-                                            supports_explaining_mutations: true,
-                                            supports_nested_object_filtering: false,
-                                            supports_nested_object_ordering: false,
-                                            supports_nested_object_array_filtering: false,
-                                            supports_nested_scalar_array_filtering: false,
-                                            supports_aggregates: Some(
-                                                DataConnectorAggregateCapabilities {
-                                                    supports_nested_object_aggregations: false,
-                                                    aggregate_count_scalar_type: None,
-                                                    supports_grouping: None,
-                                                },
-                                            ),
-                                            supports_query_variables: true,
-                                            supports_relationships: Some(
-                                                DataConnectorRelationshipCapabilities {
-                                                    supports_relation_comparisons: true,
-                                                    supports_nested_relationships: Some(
-                                                        DataConnectorNestedRelationshipCapabilities {
-                                                            supports_nested_array_selection: true,
-                                                            supports_nested_in_filtering: false,
-                                                            supports_nested_in_ordering: false,
-                                                        },
-                                                    ),
-                                                },
-                                            ),
-                                            supports_relational_queries: None,
-                                        },
-                                    },
-                                    source_type_mappings: {
-                                        Qualified {
-                                            subgraph: SubgraphName(
-                                                "default",
-                                            ),
-                                            name: CustomTypeName(
-                                                Identifier(
-                                                    "Artist",
+                                            relationship_type: Array,
+                                            source_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
                                                 ),
-                                            ),
-                                        }: Object {
-                                            ndc_object_type_name: DataConnectorObjectType(
-                                                "Artist",
-                                            ),
-                                            field_mappings: {
-                                                FieldName(
+                                                name: CustomTypeName(
                                                     Identifier(
-                                                        "ArtistId",
+                                                        "Artist",
                                                     ),
-                                                ): FieldMapping {
-                                                    column: DataConnectorColumnName(
-                                                        "ArtistId",
-                                                    ),
-                                                    column_type: Named {
-                                                        name: TypeName(
-                                                            "int4",
-                                                        ),
-                                                    },
-                                                    column_type_representation: Some(
-                                                        JSON,
-                                                    ),
-                                                    comparison_operators: Some(
-                                                        ComparisonOperators {
-                                                            eq_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_eq",
-                                                                ),
-                                                            ),
-                                                            in_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_in",
-                                                                ),
-                                                            ),
-                                                            lt_operator: None,
-                                                            lte_operator: None,
-                                                            gt_operator: None,
-                                                            gte_operator: None,
-                                                            contains_operator: None,
-                                                            icontains_operator: None,
-                                                            starts_with_operator: None,
-                                                            istarts_with_operator: None,
-                                                            ends_with_operator: None,
-                                                            iends_with_operator: None,
-                                                            other_operators: [
-                                                                DataConnectorOperatorName(
-                                                                    "_gt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_gte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_neq",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    aggregate_functions: Some(
-                                                        AggregateFunctions {
-                                                            sum_function: None,
-                                                            min_function: None,
-                                                            max_function: None,
-                                                            avg_function: None,
-                                                            other_functions: [
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "max",
-                                                                ),
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "min",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    extraction_functions: Some(
-                                                        ExtractionFunctions {
-                                                            year_function: None,
-                                                            month_function: None,
-                                                            day_function: None,
-                                                            nanosecond_function: None,
-                                                            microsecond_function: None,
-                                                            millisecond_function: None,
-                                                            second_function: None,
-                                                            minute_function: None,
-                                                            hour_function: None,
-                                                            week_function: None,
-                                                            quarter_function: None,
-                                                            day_of_week_function: None,
-                                                            day_of_year_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    argument_mappings: {},
-                                                },
-                                                FieldName(
-                                                    Identifier(
-                                                        "Name",
-                                                    ),
-                                                ): FieldMapping {
-                                                    column: DataConnectorColumnName(
-                                                        "Name",
-                                                    ),
-                                                    column_type: Named {
-                                                        name: TypeName(
-                                                            "varchar",
-                                                        ),
-                                                    },
-                                                    column_type_representation: Some(
-                                                        JSON,
-                                                    ),
-                                                    comparison_operators: Some(
-                                                        ComparisonOperators {
-                                                            eq_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_eq",
-                                                                ),
-                                                            ),
-                                                            in_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_in",
-                                                                ),
-                                                            ),
-                                                            lt_operator: None,
-                                                            lte_operator: None,
-                                                            gt_operator: None,
-                                                            gte_operator: None,
-                                                            contains_operator: None,
-                                                            icontains_operator: None,
-                                                            starts_with_operator: None,
-                                                            istarts_with_operator: None,
-                                                            ends_with_operator: None,
-                                                            iends_with_operator: None,
-                                                            other_operators: [
-                                                                DataConnectorOperatorName(
-                                                                    "_gt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_gte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_ilike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_iregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_like",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_neq",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nilike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_niregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nlike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_regex",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    aggregate_functions: Some(
-                                                        AggregateFunctions {
-                                                            sum_function: None,
-                                                            min_function: None,
-                                                            max_function: None,
-                                                            avg_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    extraction_functions: Some(
-                                                        ExtractionFunctions {
-                                                            year_function: None,
-                                                            month_function: None,
-                                                            day_function: None,
-                                                            nanosecond_function: None,
-                                                            microsecond_function: None,
-                                                            millisecond_function: None,
-                                                            second_function: None,
-                                                            minute_function: None,
-                                                            hour_function: None,
-                                                            week_function: None,
-                                                            quarter_function: None,
-                                                            day_of_week_function: None,
-                                                            day_of_year_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    argument_mappings: {},
-                                                },
+                                                ),
                                             },
-                                        },
-                                    },
-                                    target_source: ModelTargetSource {
-                                        model: ModelSource {
-                                            data_connector: DataConnectorLink {
+                                            source_data_connector: DataConnectorLink {
                                                 name: Qualified {
                                                     subgraph: SubgraphName(
                                                         "default",
@@ -5606,124 +5326,26 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                         },
                                                     ),
                                                     supports_relational_queries: None,
+                                                    supports_relational_mutations: None,
                                                 },
                                             },
-                                            collection: CollectionName(
-                                                "Album",
-                                            ),
-                                            collection_type: DataConnectorObjectType(
-                                                "Album",
-                                            ),
-                                            type_mappings: {
+                                            source_type_mappings: {
                                                 Qualified {
                                                     subgraph: SubgraphName(
                                                         "default",
                                                     ),
                                                     name: CustomTypeName(
                                                         Identifier(
-                                                            "Album",
+                                                            "Artist",
                                                         ),
                                                     ),
                                                 }: Object {
                                                     ndc_object_type_name: DataConnectorObjectType(
-                                                        "Album",
+                                                        "Artist",
                                                     ),
                                                     field_mappings: {
                                                         FieldName(
                                                             Identifier(
-                                                                "AlbumId",
-                                                            ),
-                                                        ): FieldMapping {
-                                                            column: DataConnectorColumnName(
-                                                                "AlbumId",
-                                                            ),
-                                                            column_type: Named {
-                                                                name: TypeName(
-                                                                    "int4",
-                                                                ),
-                                                            },
-                                                            column_type_representation: Some(
-                                                                JSON,
-                                                            ),
-                                                            comparison_operators: Some(
-                                                                ComparisonOperators {
-                                                                    eq_operator: Some(
-                                                                        DataConnectorOperatorName(
-                                                                            "_eq",
-                                                                        ),
-                                                                    ),
-                                                                    in_operator: Some(
-                                                                        DataConnectorOperatorName(
-                                                                            "_in",
-                                                                        ),
-                                                                    ),
-                                                                    lt_operator: None,
-                                                                    lte_operator: None,
-                                                                    gt_operator: None,
-                                                                    gte_operator: None,
-                                                                    contains_operator: None,
-                                                                    icontains_operator: None,
-                                                                    starts_with_operator: None,
-                                                                    istarts_with_operator: None,
-                                                                    ends_with_operator: None,
-                                                                    iends_with_operator: None,
-                                                                    other_operators: [
-                                                                        DataConnectorOperatorName(
-                                                                            "_gt",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_gte",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_lt",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_lte",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_neq",
-                                                                        ),
-                                                                    ],
-                                                                },
-                                                            ),
-                                                            aggregate_functions: Some(
-                                                                AggregateFunctions {
-                                                                    sum_function: None,
-                                                                    min_function: None,
-                                                                    max_function: None,
-                                                                    avg_function: None,
-                                                                    other_functions: [
-                                                                        DataConnectorAggregationFunctionName(
-                                                                            "max",
-                                                                        ),
-                                                                        DataConnectorAggregationFunctionName(
-                                                                            "min",
-                                                                        ),
-                                                                    ],
-                                                                },
-                                                            ),
-                                                            extraction_functions: Some(
-                                                                ExtractionFunctions {
-                                                                    year_function: None,
-                                                                    month_function: None,
-                                                                    day_function: None,
-                                                                    nanosecond_function: None,
-                                                                    microsecond_function: None,
-                                                                    millisecond_function: None,
-                                                                    second_function: None,
-                                                                    minute_function: None,
-                                                                    hour_function: None,
-                                                                    week_function: None,
-                                                                    quarter_function: None,
-                                                                    day_of_week_function: None,
-                                                                    day_of_year_function: None,
-                                                                    other_functions: [],
-                                                                },
-                                                            ),
-                                                            argument_mappings: {},
-                                                        },
-                                                        FieldName(
-                                                            Identifier(
                                                                 "ArtistId",
                                                             ),
                                                         ): FieldMapping {
@@ -5817,11 +5439,11 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                         },
                                                         FieldName(
                                                             Identifier(
-                                                                "Title",
+                                                                "Name",
                                                             ),
                                                         ): FieldMapping {
                                                             column: DataConnectorColumnName(
-                                                                "Title",
+                                                                "Name",
                                                             ),
                                                             column_type: Named {
                                                                 name: TypeName(
@@ -5928,123 +5550,518 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                     },
                                                 },
                                             },
-                                            argument_mappings: {},
-                                            data_connector_link_argument_presets: {},
-                                            source_arguments: {},
-                                        },
-                                        capabilities: RelationshipCapabilities {
-                                            foreach: (),
-                                            supports_relationships: Some(
-                                                DataConnectorRelationshipCapabilities {
-                                                    supports_relation_comparisons: true,
-                                                    supports_nested_relationships: Some(
-                                                        DataConnectorNestedRelationshipCapabilities {
-                                                            supports_nested_array_selection: true,
-                                                            supports_nested_in_filtering: false,
-                                                            supports_nested_in_ordering: false,
+                                            target_source: ModelTargetSource {
+                                                model: ModelSource {
+                                                    data_connector: DataConnectorLink {
+                                                        name: Qualified {
+                                                            subgraph: SubgraphName(
+                                                                "default",
+                                                            ),
+                                                            name: DataConnectorName(
+                                                                Identifier(
+                                                                    "db",
+                                                                ),
+                                                            ),
+                                                        },
+                                                        url: SingleUrl(
+                                                            SerializableUrl(
+                                                                Url {
+                                                                    scheme: "http",
+                                                                    cannot_be_a_base: false,
+                                                                    username: "",
+                                                                    password: None,
+                                                                    host: Some(
+                                                                        Domain(
+                                                                            "postgres-connector",
+                                                                        ),
+                                                                    ),
+                                                                    port: Some(
+                                                                        8080,
+                                                                    ),
+                                                                    path: "/",
+                                                                    query: None,
+                                                                    fragment: None,
+                                                                },
+                                                            ),
+                                                        ),
+                                                        headers: SerializableHeaderMap(
+                                                            {},
+                                                        ),
+                                                        response_config: None,
+                                                        capabilities: DataConnectorCapabilities {
+                                                            supported_ndc_version: V01,
+                                                            supports_explaining_queries: true,
+                                                            supports_explaining_mutations: true,
+                                                            supports_nested_object_filtering: false,
+                                                            supports_nested_object_ordering: false,
+                                                            supports_nested_object_array_filtering: false,
+                                                            supports_nested_scalar_array_filtering: false,
+                                                            supports_aggregates: Some(
+                                                                DataConnectorAggregateCapabilities {
+                                                                    supports_nested_object_aggregations: false,
+                                                                    aggregate_count_scalar_type: None,
+                                                                    supports_grouping: None,
+                                                                },
+                                                            ),
+                                                            supports_query_variables: true,
+                                                            supports_relationships: Some(
+                                                                DataConnectorRelationshipCapabilities {
+                                                                    supports_relation_comparisons: true,
+                                                                    supports_nested_relationships: Some(
+                                                                        DataConnectorNestedRelationshipCapabilities {
+                                                                            supports_nested_array_selection: true,
+                                                                            supports_nested_in_filtering: false,
+                                                                            supports_nested_in_ordering: false,
+                                                                        },
+                                                                    ),
+                                                                },
+                                                            ),
+                                                            supports_relational_queries: None,
+                                                            supports_relational_mutations: None,
+                                                        },
+                                                    },
+                                                    collection: CollectionName(
+                                                        "Album",
+                                                    ),
+                                                    collection_type: DataConnectorObjectType(
+                                                        "Album",
+                                                    ),
+                                                    type_mappings: {
+                                                        Qualified {
+                                                            subgraph: SubgraphName(
+                                                                "default",
+                                                            ),
+                                                            name: CustomTypeName(
+                                                                Identifier(
+                                                                    "Album",
+                                                                ),
+                                                            ),
+                                                        }: Object {
+                                                            ndc_object_type_name: DataConnectorObjectType(
+                                                                "Album",
+                                                            ),
+                                                            field_mappings: {
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "int4",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "max",
+                                                                                ),
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "min",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "int4",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "max",
+                                                                                ),
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "min",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "Title",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "Title",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "varchar",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_ilike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_iregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_like",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nilike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_niregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nlike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_regex",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                    argument_mappings: {},
+                                                    data_connector_link_argument_presets: {},
+                                                    source_arguments: {},
+                                                },
+                                                capabilities: RelationshipCapabilities {
+                                                    foreach: (),
+                                                    supports_relationships: Some(
+                                                        DataConnectorRelationshipCapabilities {
+                                                            supports_relation_comparisons: true,
+                                                            supports_nested_relationships: Some(
+                                                                DataConnectorNestedRelationshipCapabilities {
+                                                                    supports_nested_array_selection: true,
+                                                                    supports_nested_in_filtering: false,
+                                                                    supports_nested_in_ordering: false,
+                                                                },
+                                                            ),
                                                         },
                                                     ),
                                                 },
-                                            ),
-                                        },
-                                    },
-                                    target_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Album",
-                                            ),
-                                        ),
-                                    },
-                                    target_model_name: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: ModelName(
-                                            Identifier(
-                                                "Albums",
-                                            ),
-                                        ),
-                                    },
-                                    mappings: [
-                                        RelationshipModelMapping {
-                                            source_field: RelationshipFieldAccess {
-                                                field_name: FieldName(
+                                            },
+                                            target_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: CustomTypeName(
                                                     Identifier(
-                                                        "ArtistId",
+                                                        "Album",
                                                     ),
                                                 ),
                                             },
-                                            target: ModelField(
-                                                RelationshipModelMappingFieldTarget {
-                                                    target_field: RelationshipFieldAccess {
+                                            target_model_name: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: ModelName(
+                                                    Identifier(
+                                                        "Albums",
+                                                    ),
+                                                ),
+                                            },
+                                            mappings: [
+                                                RelationshipModelMapping {
+                                                    source_field: RelationshipFieldAccess {
                                                         field_name: FieldName(
                                                             Identifier(
                                                                 "ArtistId",
                                                             ),
                                                         ),
                                                     },
-                                                    target_ndc_column: Some(
-                                                        NdcColumnForComparison {
-                                                            column: DataConnectorColumnName(
-                                                                "ArtistId",
-                                                            ),
-                                                            equal_operator: DataConnectorOperatorName(
-                                                                "_eq",
+                                                    target: ModelField(
+                                                        RelationshipModelMappingFieldTarget {
+                                                            target_field: RelationshipFieldAccess {
+                                                                field_name: FieldName(
+                                                                    Identifier(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                ),
+                                                            },
+                                                            target_ndc_column: Some(
+                                                                NdcColumnForComparison {
+                                                                    column: DataConnectorColumnName(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                    equal_operator: DataConnectorOperatorName(
+                                                                        "_eq",
+                                                                    ),
+                                                                },
                                                             ),
                                                         },
                                                     ),
                                                 },
-                                            ),
+                                            ],
                                         },
-                                    ],
-                                },
-                                column_path: [],
-                                predicate: BinaryFieldComparison {
-                                    field: FieldName(
-                                        Identifier(
-                                            "Title",
-                                        ),
-                                    ),
-                                    field_parent_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Album",
+                                        column_path: [],
+                                        predicate: BinaryFieldComparison {
+                                            field: FieldName(
+                                                Identifier(
+                                                    "Title",
+                                                ),
                                             ),
-                                        ),
-                                    },
-                                    ndc_column: DataConnectorColumnName(
-                                        "Title",
-                                    ),
-                                    operator: ResolvedOperator {
-                                        data_connector_operator_name: DataConnectorOperatorName(
-                                            "_eq",
-                                        ),
-                                        comparison_operator: Equals,
-                                    },
-                                    column_path: [],
-                                    argument_type: QualifiedTypeReference {
-                                        underlying_type: Named(
-                                            Inbuilt(
-                                                String,
+                                            field_parent_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: CustomTypeName(
+                                                    Identifier(
+                                                        "Album",
+                                                    ),
+                                                ),
+                                            },
+                                            ndc_column: DataConnectorColumnName(
+                                                "Title",
                                             ),
-                                        ),
-                                        nullable: false,
+                                            operator: ResolvedOperator {
+                                                data_connector_operator_name: DataConnectorOperatorName(
+                                                    "_eq",
+                                                ),
+                                                comparison_operator: Equals,
+                                            },
+                                            column_path: [],
+                                            argument_type: QualifiedTypeReference {
+                                                underlying_type: Named(
+                                                    Inbuilt(
+                                                        String,
+                                                    ),
+                                                ),
+                                                nullable: false,
+                                            },
+                                            value: Literal(
+                                                String("Supernatural"),
+                                            ),
+                                            deprecated: None,
+                                        },
                                     },
-                                    value: Literal(
-                                        String("Supernatural"),
-                                    ),
-                                    deprecated: None,
-                                },
+                                ),
+                                argument_presets: {},
+                                allow_subscriptions: false,
                             },
                         ),
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -6760,6 +6777,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -7092,13 +7110,20 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -7969,6 +7994,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -8301,13 +8327,20 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -9138,6 +9171,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -9389,13 +9423,20 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -10014,6 +10055,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -10287,13 +10329,20 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                         type_representation: None,
                     },
                 },
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: AllowAll,
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: AllowAll,
+                                argument_presets: {},
+                                allow_subscriptions: false,
+                            },
+                        ),
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -10961,6 +11010,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             collection: CollectionName(
@@ -11293,420 +11343,39 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                     aggregate_expression: None,
                 },
                 arguments: {},
-                select_permissions: {
+                permissions: {
                     Role(
                         "admin",
-                    ): SelectPermission {
-                        filter: Filter(
-                            Relationship {
-                                relationship_info: PredicateRelationshipInfo {
-                                    relationship_name: RelationshipName(
-                                        Identifier(
-                                            "Album",
-                                        ),
-                                    ),
-                                    relationship_type: Object,
-                                    source_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Song",
-                                            ),
-                                        ),
-                                    },
-                                    source_data_connector: DataConnectorLink {
-                                        name: Qualified {
-                                            subgraph: SubgraphName(
-                                                "default",
-                                            ),
-                                            name: DataConnectorName(
+                    ): ResolvedPermissions {
+                        select: Some(
+                            SelectPermission {
+                                filter: Filter(
+                                    Relationship {
+                                        relationship_info: PredicateRelationshipInfo {
+                                            relationship_name: RelationshipName(
                                                 Identifier(
-                                                    "db_remote",
+                                                    "Album",
                                                 ),
                                             ),
-                                        },
-                                        url: SingleUrl(
-                                            SerializableUrl(
-                                                Url {
-                                                    scheme: "http",
-                                                    cannot_be_a_base: false,
-                                                    username: "",
-                                                    password: None,
-                                                    host: Some(
-                                                        Domain(
-                                                            "postgres-connector",
-                                                        ),
-                                                    ),
-                                                    port: Some(
-                                                        8080,
-                                                    ),
-                                                    path: "/",
-                                                    query: None,
-                                                    fragment: None,
-                                                },
-                                            ),
-                                        ),
-                                        headers: SerializableHeaderMap(
-                                            {},
-                                        ),
-                                        response_config: None,
-                                        capabilities: DataConnectorCapabilities {
-                                            supported_ndc_version: V01,
-                                            supports_explaining_queries: true,
-                                            supports_explaining_mutations: true,
-                                            supports_nested_object_filtering: false,
-                                            supports_nested_object_ordering: false,
-                                            supports_nested_object_array_filtering: false,
-                                            supports_nested_scalar_array_filtering: false,
-                                            supports_aggregates: Some(
-                                                DataConnectorAggregateCapabilities {
-                                                    supports_nested_object_aggregations: false,
-                                                    aggregate_count_scalar_type: None,
-                                                    supports_grouping: None,
-                                                },
-                                            ),
-                                            supports_query_variables: true,
-                                            supports_relationships: Some(
-                                                DataConnectorRelationshipCapabilities {
-                                                    supports_relation_comparisons: true,
-                                                    supports_nested_relationships: Some(
-                                                        DataConnectorNestedRelationshipCapabilities {
-                                                            supports_nested_array_selection: true,
-                                                            supports_nested_in_filtering: false,
-                                                            supports_nested_in_ordering: false,
-                                                        },
-                                                    ),
-                                                },
-                                            ),
-                                            supports_relational_queries: None,
-                                        },
-                                    },
-                                    source_type_mappings: {
-                                        Qualified {
-                                            subgraph: SubgraphName(
-                                                "default",
-                                            ),
-                                            name: CustomTypeName(
-                                                Identifier(
-                                                    "Song",
+                                            relationship_type: Object,
+                                            source_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
                                                 ),
-                                            ),
-                                        }: Object {
-                                            ndc_object_type_name: DataConnectorObjectType(
-                                                "Track",
-                                            ),
-                                            field_mappings: {
-                                                FieldName(
+                                                name: CustomTypeName(
                                                     Identifier(
-                                                        "AlbumId",
+                                                        "Song",
                                                     ),
-                                                ): FieldMapping {
-                                                    column: DataConnectorColumnName(
-                                                        "AlbumId",
-                                                    ),
-                                                    column_type: Named {
-                                                        name: TypeName(
-                                                            "int4",
-                                                        ),
-                                                    },
-                                                    column_type_representation: Some(
-                                                        JSON,
-                                                    ),
-                                                    comparison_operators: Some(
-                                                        ComparisonOperators {
-                                                            eq_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_eq",
-                                                                ),
-                                                            ),
-                                                            in_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_in",
-                                                                ),
-                                                            ),
-                                                            lt_operator: None,
-                                                            lte_operator: None,
-                                                            gt_operator: None,
-                                                            gte_operator: None,
-                                                            contains_operator: None,
-                                                            icontains_operator: None,
-                                                            starts_with_operator: None,
-                                                            istarts_with_operator: None,
-                                                            ends_with_operator: None,
-                                                            iends_with_operator: None,
-                                                            other_operators: [
-                                                                DataConnectorOperatorName(
-                                                                    "_gt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_gte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_neq",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    aggregate_functions: Some(
-                                                        AggregateFunctions {
-                                                            sum_function: None,
-                                                            min_function: None,
-                                                            max_function: None,
-                                                            avg_function: None,
-                                                            other_functions: [
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "max",
-                                                                ),
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "min",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    extraction_functions: Some(
-                                                        ExtractionFunctions {
-                                                            year_function: None,
-                                                            month_function: None,
-                                                            day_function: None,
-                                                            nanosecond_function: None,
-                                                            microsecond_function: None,
-                                                            millisecond_function: None,
-                                                            second_function: None,
-                                                            minute_function: None,
-                                                            hour_function: None,
-                                                            week_function: None,
-                                                            quarter_function: None,
-                                                            day_of_week_function: None,
-                                                            day_of_year_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    argument_mappings: {},
-                                                },
-                                                FieldName(
-                                                    Identifier(
-                                                        "Name",
-                                                    ),
-                                                ): FieldMapping {
-                                                    column: DataConnectorColumnName(
-                                                        "Name",
-                                                    ),
-                                                    column_type: Named {
-                                                        name: TypeName(
-                                                            "varchar",
-                                                        ),
-                                                    },
-                                                    column_type_representation: Some(
-                                                        JSON,
-                                                    ),
-                                                    comparison_operators: Some(
-                                                        ComparisonOperators {
-                                                            eq_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_eq",
-                                                                ),
-                                                            ),
-                                                            in_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_in",
-                                                                ),
-                                                            ),
-                                                            lt_operator: None,
-                                                            lte_operator: None,
-                                                            gt_operator: None,
-                                                            gte_operator: None,
-                                                            contains_operator: None,
-                                                            icontains_operator: None,
-                                                            starts_with_operator: None,
-                                                            istarts_with_operator: None,
-                                                            ends_with_operator: None,
-                                                            iends_with_operator: None,
-                                                            other_operators: [
-                                                                DataConnectorOperatorName(
-                                                                    "_gt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_gte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_ilike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_iregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_like",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_neq",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nilike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_niregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nlike",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_nregex",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_regex",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    aggregate_functions: Some(
-                                                        AggregateFunctions {
-                                                            sum_function: None,
-                                                            min_function: None,
-                                                            max_function: None,
-                                                            avg_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    extraction_functions: Some(
-                                                        ExtractionFunctions {
-                                                            year_function: None,
-                                                            month_function: None,
-                                                            day_function: None,
-                                                            nanosecond_function: None,
-                                                            microsecond_function: None,
-                                                            millisecond_function: None,
-                                                            second_function: None,
-                                                            minute_function: None,
-                                                            hour_function: None,
-                                                            week_function: None,
-                                                            quarter_function: None,
-                                                            day_of_week_function: None,
-                                                            day_of_year_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    argument_mappings: {},
-                                                },
-                                                FieldName(
-                                                    Identifier(
-                                                        "SongId",
-                                                    ),
-                                                ): FieldMapping {
-                                                    column: DataConnectorColumnName(
-                                                        "TrackId",
-                                                    ),
-                                                    column_type: Named {
-                                                        name: TypeName(
-                                                            "int4",
-                                                        ),
-                                                    },
-                                                    column_type_representation: Some(
-                                                        JSON,
-                                                    ),
-                                                    comparison_operators: Some(
-                                                        ComparisonOperators {
-                                                            eq_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_eq",
-                                                                ),
-                                                            ),
-                                                            in_operator: Some(
-                                                                DataConnectorOperatorName(
-                                                                    "_in",
-                                                                ),
-                                                            ),
-                                                            lt_operator: None,
-                                                            lte_operator: None,
-                                                            gt_operator: None,
-                                                            gte_operator: None,
-                                                            contains_operator: None,
-                                                            icontains_operator: None,
-                                                            starts_with_operator: None,
-                                                            istarts_with_operator: None,
-                                                            ends_with_operator: None,
-                                                            iends_with_operator: None,
-                                                            other_operators: [
-                                                                DataConnectorOperatorName(
-                                                                    "_gt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_gte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lt",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_lte",
-                                                                ),
-                                                                DataConnectorOperatorName(
-                                                                    "_neq",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    aggregate_functions: Some(
-                                                        AggregateFunctions {
-                                                            sum_function: None,
-                                                            min_function: None,
-                                                            max_function: None,
-                                                            avg_function: None,
-                                                            other_functions: [
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "max",
-                                                                ),
-                                                                DataConnectorAggregationFunctionName(
-                                                                    "min",
-                                                                ),
-                                                            ],
-                                                        },
-                                                    ),
-                                                    extraction_functions: Some(
-                                                        ExtractionFunctions {
-                                                            year_function: None,
-                                                            month_function: None,
-                                                            day_function: None,
-                                                            nanosecond_function: None,
-                                                            microsecond_function: None,
-                                                            millisecond_function: None,
-                                                            second_function: None,
-                                                            minute_function: None,
-                                                            hour_function: None,
-                                                            week_function: None,
-                                                            quarter_function: None,
-                                                            day_of_week_function: None,
-                                                            day_of_year_function: None,
-                                                            other_functions: [],
-                                                        },
-                                                    ),
-                                                    argument_mappings: {},
-                                                },
+                                                ),
                                             },
-                                        },
-                                    },
-                                    target_source: ModelTargetSource {
-                                        model: ModelSource {
-                                            data_connector: DataConnectorLink {
+                                            source_data_connector: DataConnectorLink {
                                                 name: Qualified {
                                                     subgraph: SubgraphName(
                                                         "default",
                                                     ),
                                                     name: DataConnectorName(
                                                         Identifier(
-                                                            "db",
+                                                            "db_remote",
                                                         ),
                                                     ),
                                                 },
@@ -11764,27 +11433,22 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                         },
                                                     ),
                                                     supports_relational_queries: None,
+                                                    supports_relational_mutations: None,
                                                 },
                                             },
-                                            collection: CollectionName(
-                                                "Album",
-                                            ),
-                                            collection_type: DataConnectorObjectType(
-                                                "Album",
-                                            ),
-                                            type_mappings: {
+                                            source_type_mappings: {
                                                 Qualified {
                                                     subgraph: SubgraphName(
                                                         "default",
                                                     ),
                                                     name: CustomTypeName(
                                                         Identifier(
-                                                            "Album",
+                                                            "Song",
                                                         ),
                                                     ),
                                                 }: Object {
                                                     ndc_object_type_name: DataConnectorObjectType(
-                                                        "Album",
+                                                        "Track",
                                                     ),
                                                     field_mappings: {
                                                         FieldName(
@@ -11882,104 +11546,11 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                         },
                                                         FieldName(
                                                             Identifier(
-                                                                "ArtistId",
+                                                                "Name",
                                                             ),
                                                         ): FieldMapping {
                                                             column: DataConnectorColumnName(
-                                                                "ArtistId",
-                                                            ),
-                                                            column_type: Named {
-                                                                name: TypeName(
-                                                                    "int4",
-                                                                ),
-                                                            },
-                                                            column_type_representation: Some(
-                                                                JSON,
-                                                            ),
-                                                            comparison_operators: Some(
-                                                                ComparisonOperators {
-                                                                    eq_operator: Some(
-                                                                        DataConnectorOperatorName(
-                                                                            "_eq",
-                                                                        ),
-                                                                    ),
-                                                                    in_operator: Some(
-                                                                        DataConnectorOperatorName(
-                                                                            "_in",
-                                                                        ),
-                                                                    ),
-                                                                    lt_operator: None,
-                                                                    lte_operator: None,
-                                                                    gt_operator: None,
-                                                                    gte_operator: None,
-                                                                    contains_operator: None,
-                                                                    icontains_operator: None,
-                                                                    starts_with_operator: None,
-                                                                    istarts_with_operator: None,
-                                                                    ends_with_operator: None,
-                                                                    iends_with_operator: None,
-                                                                    other_operators: [
-                                                                        DataConnectorOperatorName(
-                                                                            "_gt",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_gte",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_lt",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_lte",
-                                                                        ),
-                                                                        DataConnectorOperatorName(
-                                                                            "_neq",
-                                                                        ),
-                                                                    ],
-                                                                },
-                                                            ),
-                                                            aggregate_functions: Some(
-                                                                AggregateFunctions {
-                                                                    sum_function: None,
-                                                                    min_function: None,
-                                                                    max_function: None,
-                                                                    avg_function: None,
-                                                                    other_functions: [
-                                                                        DataConnectorAggregationFunctionName(
-                                                                            "max",
-                                                                        ),
-                                                                        DataConnectorAggregationFunctionName(
-                                                                            "min",
-                                                                        ),
-                                                                    ],
-                                                                },
-                                                            ),
-                                                            extraction_functions: Some(
-                                                                ExtractionFunctions {
-                                                                    year_function: None,
-                                                                    month_function: None,
-                                                                    day_function: None,
-                                                                    nanosecond_function: None,
-                                                                    microsecond_function: None,
-                                                                    millisecond_function: None,
-                                                                    second_function: None,
-                                                                    minute_function: None,
-                                                                    hour_function: None,
-                                                                    week_function: None,
-                                                                    quarter_function: None,
-                                                                    day_of_week_function: None,
-                                                                    day_of_year_function: None,
-                                                                    other_functions: [],
-                                                                },
-                                                            ),
-                                                            argument_mappings: {},
-                                                        },
-                                                        FieldName(
-                                                            Identifier(
-                                                                "Title",
-                                                            ),
-                                                        ): FieldMapping {
-                                                            column: DataConnectorColumnName(
-                                                                "Title",
+                                                                "Name",
                                                             ),
                                                             column_type: Named {
                                                                 name: TypeName(
@@ -12083,130 +11654,618 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                                             ),
                                                             argument_mappings: {},
                                                         },
+                                                        FieldName(
+                                                            Identifier(
+                                                                "SongId",
+                                                            ),
+                                                        ): FieldMapping {
+                                                            column: DataConnectorColumnName(
+                                                                "TrackId",
+                                                            ),
+                                                            column_type: Named {
+                                                                name: TypeName(
+                                                                    "int4",
+                                                                ),
+                                                            },
+                                                            column_type_representation: Some(
+                                                                JSON,
+                                                            ),
+                                                            comparison_operators: Some(
+                                                                ComparisonOperators {
+                                                                    eq_operator: Some(
+                                                                        DataConnectorOperatorName(
+                                                                            "_eq",
+                                                                        ),
+                                                                    ),
+                                                                    in_operator: Some(
+                                                                        DataConnectorOperatorName(
+                                                                            "_in",
+                                                                        ),
+                                                                    ),
+                                                                    lt_operator: None,
+                                                                    lte_operator: None,
+                                                                    gt_operator: None,
+                                                                    gte_operator: None,
+                                                                    contains_operator: None,
+                                                                    icontains_operator: None,
+                                                                    starts_with_operator: None,
+                                                                    istarts_with_operator: None,
+                                                                    ends_with_operator: None,
+                                                                    iends_with_operator: None,
+                                                                    other_operators: [
+                                                                        DataConnectorOperatorName(
+                                                                            "_gt",
+                                                                        ),
+                                                                        DataConnectorOperatorName(
+                                                                            "_gte",
+                                                                        ),
+                                                                        DataConnectorOperatorName(
+                                                                            "_lt",
+                                                                        ),
+                                                                        DataConnectorOperatorName(
+                                                                            "_lte",
+                                                                        ),
+                                                                        DataConnectorOperatorName(
+                                                                            "_neq",
+                                                                        ),
+                                                                    ],
+                                                                },
+                                                            ),
+                                                            aggregate_functions: Some(
+                                                                AggregateFunctions {
+                                                                    sum_function: None,
+                                                                    min_function: None,
+                                                                    max_function: None,
+                                                                    avg_function: None,
+                                                                    other_functions: [
+                                                                        DataConnectorAggregationFunctionName(
+                                                                            "max",
+                                                                        ),
+                                                                        DataConnectorAggregationFunctionName(
+                                                                            "min",
+                                                                        ),
+                                                                    ],
+                                                                },
+                                                            ),
+                                                            extraction_functions: Some(
+                                                                ExtractionFunctions {
+                                                                    year_function: None,
+                                                                    month_function: None,
+                                                                    day_function: None,
+                                                                    nanosecond_function: None,
+                                                                    microsecond_function: None,
+                                                                    millisecond_function: None,
+                                                                    second_function: None,
+                                                                    minute_function: None,
+                                                                    hour_function: None,
+                                                                    week_function: None,
+                                                                    quarter_function: None,
+                                                                    day_of_week_function: None,
+                                                                    day_of_year_function: None,
+                                                                    other_functions: [],
+                                                                },
+                                                            ),
+                                                            argument_mappings: {},
+                                                        },
                                                     },
                                                 },
                                             },
-                                            argument_mappings: {},
-                                            data_connector_link_argument_presets: {},
-                                            source_arguments: {},
-                                        },
-                                        capabilities: RelationshipCapabilities {
-                                            foreach: (),
-                                            supports_relationships: Some(
-                                                DataConnectorRelationshipCapabilities {
-                                                    supports_relation_comparisons: true,
-                                                    supports_nested_relationships: Some(
-                                                        DataConnectorNestedRelationshipCapabilities {
-                                                            supports_nested_array_selection: true,
-                                                            supports_nested_in_filtering: false,
-                                                            supports_nested_in_ordering: false,
+                                            target_source: ModelTargetSource {
+                                                model: ModelSource {
+                                                    data_connector: DataConnectorLink {
+                                                        name: Qualified {
+                                                            subgraph: SubgraphName(
+                                                                "default",
+                                                            ),
+                                                            name: DataConnectorName(
+                                                                Identifier(
+                                                                    "db",
+                                                                ),
+                                                            ),
+                                                        },
+                                                        url: SingleUrl(
+                                                            SerializableUrl(
+                                                                Url {
+                                                                    scheme: "http",
+                                                                    cannot_be_a_base: false,
+                                                                    username: "",
+                                                                    password: None,
+                                                                    host: Some(
+                                                                        Domain(
+                                                                            "postgres-connector",
+                                                                        ),
+                                                                    ),
+                                                                    port: Some(
+                                                                        8080,
+                                                                    ),
+                                                                    path: "/",
+                                                                    query: None,
+                                                                    fragment: None,
+                                                                },
+                                                            ),
+                                                        ),
+                                                        headers: SerializableHeaderMap(
+                                                            {},
+                                                        ),
+                                                        response_config: None,
+                                                        capabilities: DataConnectorCapabilities {
+                                                            supported_ndc_version: V01,
+                                                            supports_explaining_queries: true,
+                                                            supports_explaining_mutations: true,
+                                                            supports_nested_object_filtering: false,
+                                                            supports_nested_object_ordering: false,
+                                                            supports_nested_object_array_filtering: false,
+                                                            supports_nested_scalar_array_filtering: false,
+                                                            supports_aggregates: Some(
+                                                                DataConnectorAggregateCapabilities {
+                                                                    supports_nested_object_aggregations: false,
+                                                                    aggregate_count_scalar_type: None,
+                                                                    supports_grouping: None,
+                                                                },
+                                                            ),
+                                                            supports_query_variables: true,
+                                                            supports_relationships: Some(
+                                                                DataConnectorRelationshipCapabilities {
+                                                                    supports_relation_comparisons: true,
+                                                                    supports_nested_relationships: Some(
+                                                                        DataConnectorNestedRelationshipCapabilities {
+                                                                            supports_nested_array_selection: true,
+                                                                            supports_nested_in_filtering: false,
+                                                                            supports_nested_in_ordering: false,
+                                                                        },
+                                                                    ),
+                                                                },
+                                                            ),
+                                                            supports_relational_queries: None,
+                                                            supports_relational_mutations: None,
+                                                        },
+                                                    },
+                                                    collection: CollectionName(
+                                                        "Album",
+                                                    ),
+                                                    collection_type: DataConnectorObjectType(
+                                                        "Album",
+                                                    ),
+                                                    type_mappings: {
+                                                        Qualified {
+                                                            subgraph: SubgraphName(
+                                                                "default",
+                                                            ),
+                                                            name: CustomTypeName(
+                                                                Identifier(
+                                                                    "Album",
+                                                                ),
+                                                            ),
+                                                        }: Object {
+                                                            ndc_object_type_name: DataConnectorObjectType(
+                                                                "Album",
+                                                            ),
+                                                            field_mappings: {
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "int4",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "max",
+                                                                                ),
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "min",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "ArtistId",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "int4",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "max",
+                                                                                ),
+                                                                                DataConnectorAggregationFunctionName(
+                                                                                    "min",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                                FieldName(
+                                                                    Identifier(
+                                                                        "Title",
+                                                                    ),
+                                                                ): FieldMapping {
+                                                                    column: DataConnectorColumnName(
+                                                                        "Title",
+                                                                    ),
+                                                                    column_type: Named {
+                                                                        name: TypeName(
+                                                                            "varchar",
+                                                                        ),
+                                                                    },
+                                                                    column_type_representation: Some(
+                                                                        JSON,
+                                                                    ),
+                                                                    comparison_operators: Some(
+                                                                        ComparisonOperators {
+                                                                            eq_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_eq",
+                                                                                ),
+                                                                            ),
+                                                                            in_operator: Some(
+                                                                                DataConnectorOperatorName(
+                                                                                    "_in",
+                                                                                ),
+                                                                            ),
+                                                                            lt_operator: None,
+                                                                            lte_operator: None,
+                                                                            gt_operator: None,
+                                                                            gte_operator: None,
+                                                                            contains_operator: None,
+                                                                            icontains_operator: None,
+                                                                            starts_with_operator: None,
+                                                                            istarts_with_operator: None,
+                                                                            ends_with_operator: None,
+                                                                            iends_with_operator: None,
+                                                                            other_operators: [
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_gte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_ilike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_iregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_like",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lt",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_lte",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_neq",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nilike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_niregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nlike",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_nregex",
+                                                                                ),
+                                                                                DataConnectorOperatorName(
+                                                                                    "_regex",
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ),
+                                                                    aggregate_functions: Some(
+                                                                        AggregateFunctions {
+                                                                            sum_function: None,
+                                                                            min_function: None,
+                                                                            max_function: None,
+                                                                            avg_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    extraction_functions: Some(
+                                                                        ExtractionFunctions {
+                                                                            year_function: None,
+                                                                            month_function: None,
+                                                                            day_function: None,
+                                                                            nanosecond_function: None,
+                                                                            microsecond_function: None,
+                                                                            millisecond_function: None,
+                                                                            second_function: None,
+                                                                            minute_function: None,
+                                                                            hour_function: None,
+                                                                            week_function: None,
+                                                                            quarter_function: None,
+                                                                            day_of_week_function: None,
+                                                                            day_of_year_function: None,
+                                                                            other_functions: [],
+                                                                        },
+                                                                    ),
+                                                                    argument_mappings: {},
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                    argument_mappings: {},
+                                                    data_connector_link_argument_presets: {},
+                                                    source_arguments: {},
+                                                },
+                                                capabilities: RelationshipCapabilities {
+                                                    foreach: (),
+                                                    supports_relationships: Some(
+                                                        DataConnectorRelationshipCapabilities {
+                                                            supports_relation_comparisons: true,
+                                                            supports_nested_relationships: Some(
+                                                                DataConnectorNestedRelationshipCapabilities {
+                                                                    supports_nested_array_selection: true,
+                                                                    supports_nested_in_filtering: false,
+                                                                    supports_nested_in_ordering: false,
+                                                                },
+                                                            ),
                                                         },
                                                     ),
                                                 },
-                                            ),
-                                        },
-                                    },
-                                    target_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Album",
-                                            ),
-                                        ),
-                                    },
-                                    target_model_name: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: ModelName(
-                                            Identifier(
-                                                "Albums",
-                                            ),
-                                        ),
-                                    },
-                                    mappings: [
-                                        RelationshipModelMapping {
-                                            source_field: RelationshipFieldAccess {
-                                                field_name: FieldName(
+                                            },
+                                            target_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: CustomTypeName(
                                                     Identifier(
-                                                        "AlbumId",
+                                                        "Album",
                                                     ),
                                                 ),
                                             },
-                                            target: ModelField(
-                                                RelationshipModelMappingFieldTarget {
-                                                    target_field: RelationshipFieldAccess {
+                                            target_model_name: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: ModelName(
+                                                    Identifier(
+                                                        "Albums",
+                                                    ),
+                                                ),
+                                            },
+                                            mappings: [
+                                                RelationshipModelMapping {
+                                                    source_field: RelationshipFieldAccess {
                                                         field_name: FieldName(
                                                             Identifier(
                                                                 "AlbumId",
                                                             ),
                                                         ),
                                                     },
-                                                    target_ndc_column: Some(
-                                                        NdcColumnForComparison {
-                                                            column: DataConnectorColumnName(
-                                                                "AlbumId",
-                                                            ),
-                                                            equal_operator: DataConnectorOperatorName(
-                                                                "_eq",
+                                                    target: ModelField(
+                                                        RelationshipModelMappingFieldTarget {
+                                                            target_field: RelationshipFieldAccess {
+                                                                field_name: FieldName(
+                                                                    Identifier(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                ),
+                                                            },
+                                                            target_ndc_column: Some(
+                                                                NdcColumnForComparison {
+                                                                    column: DataConnectorColumnName(
+                                                                        "AlbumId",
+                                                                    ),
+                                                                    equal_operator: DataConnectorOperatorName(
+                                                                        "_eq",
+                                                                    ),
+                                                                },
                                                             ),
                                                         },
                                                     ),
                                                 },
-                                            ),
+                                            ],
                                         },
-                                    ],
-                                },
-                                column_path: [],
-                                predicate: BinaryFieldComparison {
-                                    field: FieldName(
-                                        Identifier(
-                                            "Title",
-                                        ),
-                                    ),
-                                    field_parent_type: Qualified {
-                                        subgraph: SubgraphName(
-                                            "default",
-                                        ),
-                                        name: CustomTypeName(
-                                            Identifier(
-                                                "Album",
+                                        column_path: [],
+                                        predicate: BinaryFieldComparison {
+                                            field: FieldName(
+                                                Identifier(
+                                                    "Title",
+                                                ),
                                             ),
-                                        ),
-                                    },
-                                    ndc_column: DataConnectorColumnName(
-                                        "Title",
-                                    ),
-                                    operator: ResolvedOperator {
-                                        data_connector_operator_name: DataConnectorOperatorName(
-                                            "_ilike",
-                                        ),
-                                        comparison_operator: Custom(
-                                            OperatorName(
-                                                "_ilike",
+                                            field_parent_type: Qualified {
+                                                subgraph: SubgraphName(
+                                                    "default",
+                                                ),
+                                                name: CustomTypeName(
+                                                    Identifier(
+                                                        "Album",
+                                                    ),
+                                                ),
+                                            },
+                                            ndc_column: DataConnectorColumnName(
+                                                "Title",
                                             ),
-                                        ),
-                                    },
-                                    column_path: [],
-                                    argument_type: QualifiedTypeReference {
-                                        underlying_type: Named(
-                                            Inbuilt(
-                                                String,
+                                            operator: ResolvedOperator {
+                                                data_connector_operator_name: DataConnectorOperatorName(
+                                                    "_ilike",
+                                                ),
+                                                comparison_operator: Custom(
+                                                    OperatorName(
+                                                        "_ilike",
+                                                    ),
+                                                ),
+                                            },
+                                            column_path: [],
+                                            argument_type: QualifiedTypeReference {
+                                                underlying_type: Named(
+                                                    Inbuilt(
+                                                        String,
+                                                    ),
+                                                ),
+                                                nullable: false,
+                                            },
+                                            value: Literal(
+                                                String("%rock%"),
                                             ),
-                                        ),
-                                        nullable: false,
+                                            deprecated: None,
+                                        },
                                     },
-                                    value: Literal(
-                                        String("%rock%"),
-                                    ),
-                                    deprecated: None,
-                                },
+                                ),
+                                argument_presets: {},
+                                allow_subscriptions: false,
                             },
                         ),
-                        argument_presets: {},
-                        allow_subscriptions: false,
+                        relational_insert: None,
+                        relational_update: None,
+                        relational_delete: None,
                     },
                 },
                 filter_expression_type: Some(
@@ -12791,6 +12850,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             source: Procedure(
@@ -13459,6 +13519,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             source: Procedure(
@@ -14052,6 +14113,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             source: Procedure(
@@ -14698,6 +14760,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             source: Procedure(
@@ -15612,6 +15675,7 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
                                         },
                                     ),
                                     supports_relational_queries: None,
+                                    supports_relational_mutations: None,
                                 },
                             },
                             source: Procedure(
@@ -21310,6 +21374,8 @@ input_file: crates/metadata-resolve/tests/passing/boolean_expression_type/regres
             pre_parse_plugins: [],
             pre_response_plugins: [],
             pre_route_plugins: [],
+            pre_ndc_request_plugins: {},
+            pre_ndc_response_plugins: {},
         },
         roles: {
             Role(

@@ -121,19 +121,21 @@ pub fn get_model<'metadata>(
             model_name: model_name.clone(),
         })?;
 
-    if let Some(select_permission) = model.select_permissions.get(role) {
-        if role_can_access_object_type(metadata, &model.model.data_type, role) {
-            {
-                if let Some(model_source) = &model.model.source {
-                    return Ok(ModelView {
-                        data_type: &model.model.data_type,
-                        source: model_source,
-                        select_permission,
+    if let Some(permission) = model.permissions.get(role) {
+        if let Some(select_permission) = &permission.select {
+            if role_can_access_object_type(metadata, &model.model.data_type, role) {
+                {
+                    if let Some(model_source) = &model.model.source {
+                        return Ok(ModelView {
+                            data_type: &model.model.data_type,
+                            source: model_source,
+                            select_permission,
+                        });
+                    }
+                    return Err(PermissionError::ModelHasNoSource {
+                        model_name: model_name.clone(),
                     });
                 }
-                return Err(PermissionError::ModelHasNoSource {
-                    model_name: model_name.clone(),
-                });
             }
         }
     }
@@ -148,7 +150,7 @@ pub struct CommandView {}
 
 // fetch a command from metadata, ensuring we have CommandPermissions
 // and permissions to access the return type
-fn get_command(
+pub fn get_command(
     metadata: &Metadata,
     command_name: &'_ Qualified<CommandName>,
     role: &'_ Role,

@@ -7,7 +7,6 @@ use hasura_authn_core::Session;
 use indexmap::IndexMap;
 use lang_graphql::{ast::common as ast, normalized_ast};
 use open_dds::types::CustomTypeName;
-use serde::Serialize;
 
 use crate::error;
 use crate::flags::GraphqlIrFlags;
@@ -19,7 +18,7 @@ use metadata_resolve::Qualified;
 use plan_types::UsagesCounts;
 
 /// IR for the 'select_one' operation on a model
-#[derive(Serialize, Debug)]
+#[derive(Debug)]
 pub struct NodeSelect<'n, 's> {
     // The name of the field as published in the schema
     pub field_name: &'n ast::Name,
@@ -45,7 +44,7 @@ fn get_relay_node_namespace_typename_mappings<'s>(
         .info
         .namespaced
         .as_ref()
-        .and_then(|annotation| match annotation {
+        .and_then(|annotation| match annotation.as_ref() {
             NamespaceAnnotation::NodeFieldTypeMappings(type_mappings) => Some(type_mappings),
             _ => None,
         })

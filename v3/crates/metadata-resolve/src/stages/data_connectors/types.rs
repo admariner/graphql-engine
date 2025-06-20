@@ -487,6 +487,11 @@ pub struct DataConnectorCapabilities {
     #[serde(default = "serde_ext::ser_default")]
     #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
     pub supports_relational_queries: Option<DataConnectorRelationalQueryCapabilities>,
+
+    /// Whether or not relational mutations are supported
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_relational_mutations: Option<DataConnectorRelationalMutationCapabilities>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
@@ -570,6 +575,10 @@ pub struct DataConnectorRelationalQueryCapabilities {
     #[serde(default = "serde_ext::ser_default")]
     #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
     pub supports_window: Option<DataConnectorRelationalWindowCapabilities>,
+
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_union: bool,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
@@ -749,6 +758,10 @@ pub struct DataConnectorRelationalScalarExpressionCapabilities {
     #[serde(default = "serde_ext::ser_default")]
     #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
     pub supports_concat: bool,
+
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_binary_concat: bool,
 
     #[serde(default = "serde_ext::ser_default")]
     #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
@@ -993,6 +1006,10 @@ pub struct DatePartScalarExpressionCapability {
     #[serde(default = "serde_ext::ser_default")]
     #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
     pub supports_nanosecond: bool,
+
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_epoch: bool,
 }
 
 #[allow(clippy::struct_excessive_bools)]
@@ -1082,6 +1099,19 @@ pub struct DataConnectorRelationalWindowExpressionCapabilities {
     pub supports_percent_rank: bool,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct DataConnectorRelationalMutationCapabilities {
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_insert: bool,
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_update: bool,
+    #[serde(default = "serde_ext::ser_default")]
+    #[serde(skip_serializing_if = "serde_ext::is_ser_default")]
+    pub supports_delete: bool,
+}
+
 fn mk_ndc_01_capabilities(
     capabilities: &ndc_models_v01::Capabilities,
 ) -> DataConnectorCapabilities {
@@ -1123,6 +1153,7 @@ fn mk_ndc_01_capabilities(
             }
         }),
         supports_relational_queries: None,
+        supports_relational_mutations: None, // v0.1.x did not have relational mutations
     }
 }
 
@@ -1232,6 +1263,14 @@ fn mk_ndc_02_capabilities(
                         ),
                     }
                 }),
+                supports_union: r.union.is_some(),
+            }
+        }),
+        supports_relational_mutations: capabilities.relational_mutation.as_ref().map(|r| {
+            DataConnectorRelationalMutationCapabilities {
+                supports_insert: r.insert.is_some(),
+                supports_update: r.update.is_some(),
+                supports_delete: r.delete.is_some(),
             }
         }),
     }
@@ -1265,6 +1304,7 @@ fn mk_relational_expression_capabilities(
             supports_scalar: DataConnectorRelationalScalarExpressionCapabilities {
                 supports_abs: capabilities.scalar.abs.is_some(),
                 supports_array_element: capabilities.scalar.array_element.is_some(),
+                supports_binary_concat: capabilities.scalar.binary_concat.is_some(),
                 supports_btrim: capabilities.scalar.btrim.is_some(),
                 supports_ceil: capabilities.scalar.ceil.is_some(),
                 supports_character_length: capabilities.scalar.character_length.is_some(),
@@ -1288,6 +1328,7 @@ fn mk_relational_expression_capabilities(
                         supports_microsecond: c.microsecond.is_some(),
                         supports_millisecond: c.millisecond.is_some(),
                         supports_nanosecond: c.nanosecond.is_some(),
+                        supports_epoch: c.epoch.is_some(),
                     }
                 }),
                 supports_date_trunc: capabilities.scalar.date_trunc.is_some(),
@@ -1427,6 +1468,7 @@ mod tests {
             supports_query_variables: false,
             supports_relationships: None,
             supports_relational_queries: None,
+            supports_relational_mutations: None,
         };
 
         // With explicit capabilities specified, we should use them
@@ -1472,6 +1514,7 @@ mod tests {
             supports_query_variables: false,
             supports_relationships: None,
             supports_relational_queries: None,
+            supports_relational_mutations: None,
         };
 
         // With explicit capabilities specified, we should use them

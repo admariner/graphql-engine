@@ -40,7 +40,8 @@ pub use stages::data_connectors::{
 pub use stages::graphql_config::{GlobalGraphqlConfig, MultipleOrderByInputObjectFields};
 pub use stages::model_permissions::{
     FilterPermission, ModelPredicate, ModelTargetSource, ModelWithPermissions,
-    PredicateRelationshipInfo, SelectPermission, UnaryComparisonOperator,
+    PredicateRelationshipInfo, RelationalDeletePermission, RelationalInsertPermission,
+    RelationalUpdatePermission, SelectPermission, UnaryComparisonOperator,
 };
 pub use stages::models::{ModelSource, ModelsError};
 pub use stages::models_graphql::{
@@ -65,7 +66,10 @@ pub use stages::order_by_expressions::{
     OrderableRelationship, OrderableRelationshipError, OrderableScalarField,
     validate_orderable_relationship,
 };
-pub use stages::plugins::LifecyclePluginConfigs;
+pub use stages::plugins::{
+    LifecyclePluginConfigs, ResolvedLifecyclePreNdcRequestPluginHook,
+    ResolvedLifecyclePreNdcResponsePluginHook,
+};
 pub use stages::scalar_boolean_expressions::{
     LogicalOperators, LogicalOperatorsGraphqlConfig, ResolvedScalarBooleanExpressionType,
 };
